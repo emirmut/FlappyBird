@@ -23,16 +23,19 @@ public class Bird : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && !isDead) {
             rb2D.linearVelocity = Vector2.up * velocity;
         }
+        if (isDead) {
+            scoreManager.deathScreen.SetActive(true);
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D collider) { // Unity's built-in function, cannot be called with another name
-        if (collider.gameObject.name == "ScoreDetector") {
+        if (collider.CompareTag("ScoreDetector")) {
             scoreManager.IncrementScore();
         }
     }
 
     public void OnCollisionEnter2D(Collision2D collision) { // Unity's built-in function, cannot be called with another name
-        if (collision.gameObject.tag == "DeathArea") {
+        if (collision.gameObject.CompareTag("DeathArea")) {
             isDead = true;
             Time.timeScale = 0;
             deathScreen.SetActive(true);
